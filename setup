@@ -60,7 +60,7 @@ rm  arduino-cli_latest_Linux_64bit.tar.gz
 git clone https://github.com/atc1441/HRS3300-Arduino-Library.git Arduino/libraries/HRS3300-Arduino-Library 
 
 # git clone https://github.com/lvgl/lv_arduino.git
-git clone git@github.com:elazarrosenthal/lv_arduino.git -b atcwatch Arduino/libraries/lv_arduino 
+git clone https://github.com/elazarrosenthal/lv_arduino.git -b atcwatch Arduino/libraries/lv_arduino 
 
 
 
