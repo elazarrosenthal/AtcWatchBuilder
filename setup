@@ -41,30 +41,12 @@ wget --no-check-certificate  https://downloads.arduino.cc/arduino-cli/arduino-cl
 tar xvf arduino-cli_latest_Linux_64bit.tar.gz  arduino-cli
 rm  arduino-cli_latest_Linux_64bit.tar.gz 
 
-####
-#### get D6Arduino # we need for lv_arduino version that is not available anymore
-####
-# comment out for speed and use cp when testing 
-# wget --no-check-certificate  https://atcnetz.de/downloads/D6Arduino.rar
-# copy local copy to speed up if we have 
-# cp /home/elazar2/D6Arduino.rar .
 
-# extract lv_arduino 2.15 (cant get from github)
-# unrar x D6Arduino.rar D6Arduino/portable/sketchbook/libraries/lv_arduino-master 
-# mv  D6Arduino/portable/sketchbook/libraries/lv_arduino-master  Arduino/libraries/.
+# get HRS33000 library from git
+git clone https://github.com/atc1441/HRS3300-Arduino-Library.git Arduino/libraries/HRS3300-Arduino-Library 
 
-# clean up  
-# rm -rf    D6Arduino/ D6Arduino.rar 
-
-####
-#### get HRS3300-Arduino-Library
-####
-git clone https://github.com/atc1441/HRS3300-Arduino-Library.git
-mv HRS3300-Arduino-Library Arduino/libraries/
 # git clone https://github.com/lvgl/lv_arduino.git
-git clone git@github.com:elazarrosenthal/lv_arduino.git
-(cd lv_arduino; git fetch --tags;  git checkout atcwatch)
-mv  lv_arduino Arduino/libraries/
+git clone git@github.com:elazarrosenthal/lv_arduino.git -b atcwatch Arduino/libraries/lv_arduino 
 
 
 
