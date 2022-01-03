@@ -1,6 +1,8 @@
 # AtcWatchBuilder
-Script to build AtcWatch https://github.com/atc1441/ATCwatch
-under linux 
+
+Linux script to build   Aaron Christophel's  ATCWatch 
+
+https://github.com/atc1441/ATCwatch
 
 usage bash setup newdirectory
 
