@@ -1,8 +1,15 @@
-# give args should fail if $1 exists but we don't
 if [ $# != 1 ]
 then 
 	echo "usage: setup newdir"
 fi
+
+# Fail if file or direcotry exists with given name
+if [[ -e $1 ]]
+then
+	echo $1 must not exist a new directory will be wade with that name
+	exit 1
+fi
+
 
 #create build directory
 Workdir=$1
