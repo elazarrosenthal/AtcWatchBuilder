@@ -4,6 +4,7 @@
 # script to build Aaron Christophel's  ATCwatch
 # from: https://github.com/atc1441/ATCwatch.git
 #
+date
 
 if [ $# != 1 ]
 then 
@@ -63,23 +64,20 @@ git clone https://github.com/atc1441/HRS3300-Arduino-Library.git Arduino/librari
 git clone https://github.com/elazarrosenthal/lv_arduino.git -b atcwatch Arduino/libraries/lv_arduino 
 
 
-
 # get ATC WATCH archive
 git clone https://github.com/atc1441/ATCwatch.git
 
+# set up aruino-cli config 
 ./arduino-cli config init
-./arduino-cli config add board_manager.additional_urls https://atc1441.github.io/D6Library/package_nRF5_boards_index.json
-./arduino-cli core update-index
 
-# this will fail due to error with file on web remove & and cp below wehn fixed
-./arduino-cli core install nRF52D6Fitness:nRF5 & 
+# Real one but has a bas size in json
+# BOARDURL=https://atc1441.github.io/D6Library/package_nRF5_boards_index.json
+# elazarrosenthal copy with fixed size use above once it is fixed
+BOARDURL=https://raw.githubusercontent.com/elazarrosenthal/AtcWatchBuilder/c69789c244c92b336c90788d18b796e6d1f0e112/package_nRF5_boards_index.json
 
-### due to error in index file on web the above will fail and we need to use a local copy
-# remove wne fixed
-wait
-cp ../package_nRF5_boards_index.json .arduino15/package_nRF5_boards_index.json
+# Install Board For the watch
+./arduino-cli config add board_manager.additional_urls $BOARDURL
 ./arduino-cli core install nRF52D6Fitness:nRF5 
-#  remove above when fixed
 ./arduino-cli core update-index
 
 
@@ -104,4 +102,4 @@ cp .arduino15/packages/nRF52D6Fitness/hardware/nRF5/0.7.5/platform.txt.new2 .ard
 ####
 ./arduino-cli  board attach -b nRF52D6Fitness:nRF5:dsd6Watch  ATCwatch/ATCwatch/
 ./arduino-cli compile --clean -e -b nRF52D6Fitness:nRF5:dsd6Watch ATCwatch/ATCwatch/
-
+date
