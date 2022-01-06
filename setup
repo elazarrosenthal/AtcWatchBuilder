@@ -75,8 +75,16 @@ git clone https://github.com/atc1441/ATCwatch.git
 
 # Real one but has a bas size in json
 # BOARDURL=https://atc1441.github.io/D6Library/package_nRF5_boards_index.json
+
 # elazarrosenthal copy with fixed size use above once it is fixed
-BOARDURL=https://raw.githubusercontent.com/elazarrosenthal/AtcWatchBuilder/c69789c244c92b336c90788d18b796e6d1f0e112/package_nRF5_boards_index.json
+# BOARDURL=https://raw.githubusercontent.com/elazarrosenthal/AtcWatchBuilder/c69789c244c92b336c90788d18b796e6d1f0e112/package_nRF5_boards_index.json
+
+#  get the path to the local version of json that we downloaded already no need to poing to github
+CWD=`pwd`
+PCWD=`dirname $CWD`
+LOCALURL="file://$PCWD/package_nRF5_boards_index.json"
+BOARDURL=$LOCALURL
+
 
 # Install Board For the watch
 ./arduino-cli config add board_manager.additional_urls $BOARDURL
