@@ -1,0 +1,96 @@
+#!/bin/bash
+
+#
+# script to build Aaron Christophel's  ATCwatch
+# from: https://github.com/atc1441/ATCwatch.git
+#
+
+date
+
+if [ $# != 1 ]
+then 
+	echo "usage: setup newdir"
+fi
+
+# Fail if file or direcotry exists with given name
+if [[ -e $1 ]]
+then
+	echo $1 must not exist a new directory will be wade with that name
+	exit 1
+fi
+
+# 
+#create build directory
+#
+
+Workdir=$1
+mkdir $Workdir
+cd $Workdir 
+
+# setup needed librarys that we have to extract
+mkdir -p Arduino/libraries/
+
+#make a setenv file to help users later
+echo export  HOME=`pwd` > setenv
+echo export  PATH=$PATH:`pwd`/.local/bin/ >> setenv
+chmod +x setenv
+#make a build file to help users later
+echo export  HOME=`pwd` > build
+echo export  PATH=$PATH:`pwd`/.local/bin/ >> build
+echo cd `pwd` >> build
+echo './arduino-cli compile --clean -e -b esp32:esp32:twatch GPSDisplay' >> build
+chmod +x build
+
+#change HOME to be here to keep real HOME clean all files in this dir
+export HOME=`pwd`
+
+# install local standalone copy of nrfutil
+pip3 install wheel --user
+pip3 install adafruit-nrfutil --user
+# add to PATH
+export PATH=$PATH:$HOME/.local/bin
+
+####
+#### get arduino-cli
+####
+#donwload
+wget --no-check-certificate  https://downloads.arduino.cc/arduino-cli/arduino-cli_latest_Linux_64bit.tar.gz
+# extract
+tar xvf arduino-cli_latest_Linux_64bit.tar.gz  arduino-cli
+rm  arduino-cli_latest_Linux_64bit.tar.gz 
+
+
+# get TTGO_Watch  library from git
+git clone https://github.com/Xinyuan-LilyGO/TTGO_TWatch_Library.git Arduino/libraries/TTGO_TWatch_Library
+
+
+
+
+# set up aruino-cli config 
+./arduino-cli config init
+
+BOARDURL="https://dl.espressif.com/dl/package_esp32_index.json"
+
+# Stable release link: https://dl.espressif.com/dl/package_esp32_index.json
+
+# Development release link: https://dl.espressif.com/dl/package_esp32_dev_index.json
+
+
+
+# Install Board For the watch
+./arduino-cli config add board_manager.additional_urls $BOARDURL
+./arduino-cli core update-index
+./arduino-cli core install  esp32:esp32
+./arduino-cli core update-index
+
+
+#copy example
+cp -R Arduino/libraries/TTGO_TWatch_Library/examples/BasicUnit/TwatcV2Special/GPSDisplay .
+
+####
+#### buildit 
+####
+# esp32:esp32:twatch
+./arduino-cli  board attach -b esp32:esp32:twatch   GPSDisplay 
+./arduino-cli compile --clean -e -b esp32:esp32:twatch GPSDisplay 
+date
