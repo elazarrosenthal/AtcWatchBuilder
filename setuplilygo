@@ -34,12 +34,38 @@ mkdir -p Arduino/libraries/
 echo export  HOME=`pwd` > setenv
 echo export  PATH=$PATH:`pwd`/.local/bin/ >> setenv
 chmod +x setenv
+
 #make a build file to help users later
 echo export  HOME=`pwd` > build
 echo export  PATH=$PATH:`pwd`/.local/bin/ >> build
 echo cd `pwd` >> build
-echo './arduino-cli compile --clean -e -b esp32:esp32:twatch GPSDisplay' >> build
+echo './arduino-cli compile --clean -e -b esp32:esp32:twatch $*' >> build
 chmod +x build
+
+#make a attach file to help users later
+echo export  HOME=`pwd` > attach
+echo export  PATH=$PATH:`pwd`/.local/bin/ >> attach
+echo cd `pwd` >> attach
+echo './arduino-cli  board attach -b esp32:esp32:twatch $*' >> attach
+chmod +x attach
+
+#make a upload file to help users later
+echo export  HOME=`pwd` > upload
+echo export  PATH=$PATH:`pwd`/.local/bin/ >> upload
+echo cd `pwd` >> upload
+echo './arduino-cli upload -b esp32:esp32:twatch -p /dev/ttyUSB0 $*' >> upload
+chmod +x upload
+
+
+#make a monitor file to help users later
+echo export  HOME=`pwd` > monitor
+echo export  PATH=$PATH:`pwd`/.local/bin/ >> monitor
+echo cd `pwd` >> monitor
+echo './arduino-cli monitor -p /dev/ttyUSB0 describe -c baudrate=115200' >> monitor
+chmod +x monitor
+
+
+
 
 #change HOME to be here to keep real HOME clean all files in this dir
 export HOME=`pwd`
