@@ -1,4 +1,4 @@
-#liolygo watch builder
+# Lilygo watch builder
 
 This is a modified script for the lilygo watch 
 it is like the AtcWatch builder for a different watch 
